@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {publicRoutes, RouteNames} from "../router";
 
-const AppRouter = () => {
+const AppRouter: FC = () => {
     return (
         <Switch>
             {publicRoutes.map(route =>
