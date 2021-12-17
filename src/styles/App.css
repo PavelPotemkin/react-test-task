@@ -1,3 +1,4 @@
+/* global */
 *,
 *::before,
 *::after {
@@ -7,8 +8,6 @@
 body {
   margin: 0;
   padding: 0;
-  background: black;
-  color: white;
 }
 
 html {
@@ -16,6 +15,12 @@ html {
   font-family: Montserrat, sans-serif;
 }
 
+img {
+  width: 100%;
+  object-fit: contain;
+}
+
+/* nav */
 .nav {
   padding: 20px;
   display: flex;
@@ -27,12 +32,26 @@ html {
   font-size: 1.4rem;
 }
 
+/* Users list */
 .users {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
 }
 
+@media (min-width: 768px) {
+  .users {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1220px) {
+  .users {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* User card preview */
 .user-card-preview {
   display: flex;
   flex-direction: column;
@@ -56,6 +75,7 @@ html {
   margin-bottom: 8px;
 }
 
+/* Button */
 .button {
   font-family: inherit;
   padding: 4px 12px;
@@ -63,4 +83,58 @@ html {
 
 .button:hover {
   cursor: pointer;
+}
+
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.1);
+}
+
+.popup__body {
+  position: relative;
+}
+
+.popup__inner {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.popup__close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.popup__close svg {
+  width: 30px;
+  height: 30px;
+}
+
+.popup__close:hover {
+  cursor: pointer;
+}
+
+/* User popup */
+.user-popup {
+  display: flex;
+  gap: 10px;
+}
+
+.user-popup__image-wrapper {
+  width: 250px;
+}
+
+.user-popup__info {
+  display: flex;
+  gap: 10px;
 }

@@ -1,7 +1,13 @@
-import React, {FC, useEffect, useMemo, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import UserService, {User, Users} from "../api/UserService";
 import UserCardPreview from "../components/UserCardPreview";
-import UserPopup from "../components/UserPopup";
+import AppPopup from "../components/AppPopup";
+
+type userCacheType = {
+    [key: number]: User;
+}
+
+const userCache: userCacheType = {}
 
 const Main: FC = () => {
     const [users, setUsers] = useState<Users>([])
@@ -13,7 +19,15 @@ const Main: FC = () => {
     }, [])
     
     async function setFetchedUser(id: number) {
-        const fetchedUser = await UserService.getById(id)
+        let fetchedUser;
+        
+        if (userCache[id]) {
+            fetchedUser = userCache[id]
+        } else {
+            fetchedUser = await UserService.getById(id)
+            userCache[id] = fetchedUser
+        }
+        
         setUser(fetchedUser)
         setIsPopupShown(true)
     }
@@ -47,9 +61,29 @@ const Main: FC = () => {
             {
                 isPopupShown && user
                     ?
-                    <UserPopup user={user}
-                               onClose={() => setIsPopupShown(false)}
-                    />
+                    <AppPopup onClose={() => setIsPopupShown(false)}>
+                        <div className='user-popup'>
+                            <div className='user-popup__image-wrapper'>
+                                <img className='user-popup__image' src={user.avatar} alt=""/>
+                            </div>
+                            
+                            <div className='user-popup__info'>
+                                <div>
+                                    <div>Id: </div>
+                                    <div>First name: </div>
+                                    <div>Last name: </div>
+                                    <div>Email: </div>
+                                </div>
+                                
+                                <div>
+                                    <div>{user.id}</div>
+                                    <div>{user.first_name}</div>
+                                    <div>{user.last_name}</div>
+                                    <div>{user.email}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </AppPopup>
                     :
                     ''
             }
